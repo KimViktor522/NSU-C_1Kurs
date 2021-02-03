@@ -30,3 +30,21 @@
 *.exe
 *.out
 *.app
+
+# Is my
+*.db
+*.ipch
+*.sudo
+*.suo
+
+# logs
+*.tlog
+*.log
+*.pdb
+
+# tresh
+*.ilk
+*.lastbuildstate
+*.pdb
+*.enc
+*.idb

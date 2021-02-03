@@ -1,11 +1,13 @@
 #include <stdio.h>
-
-using namespace std;
+#define N 4
 
 int main() {
-	int x, y, z;
-	scanf("%d %d",&x,&y);
-	z = x + y;
-	printf("z = %d",z);
+	int x[N], y[N];
+	for (int i = 0; i < N; ++i) {
+		printf("Введите координаты %d точки\n", i);
+		scanf("%d %d", &x[i], &y[i]);
+	}
+	printf("z = %d", x[1]);
+
 	return 0;
 }

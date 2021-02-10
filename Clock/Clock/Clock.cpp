@@ -24,7 +24,10 @@ int main() {
 			++new_hours_min;
 		}
 		else if ((minute) / 12 > (minute - 1) / 12) ++new_hours_min;
-		printf("%d;%d\n", new_hours_min, minute);
+		if (new_hours_min == 59 && minute == 59) {
+			++int_minute;
+			break;
+		}
 	}
 	printf("Через %d мин стрелки совпадут", int_minute);
 	return 0;

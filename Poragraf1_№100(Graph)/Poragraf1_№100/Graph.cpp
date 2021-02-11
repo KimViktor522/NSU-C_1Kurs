@@ -38,7 +38,7 @@ void printMas(mas& array, int N) {
 void inputValunInMasN_2(mas& array, int N) {
 	for (int i{}; i < N; ++i) {
 		for (int j{}; j < 2; ++j) {
-			
+			scanf("%d", &array[i][j]);
 		}
 	}
 }
@@ -46,24 +46,23 @@ void inputValunInMasN_2(mas& array, int N) {
 
 int main() {
 	system("chcp 65001"); system("cls");
-	int N{}, R{};//N-количество вершин, R-количество ребер
-	bool check{};
+	int N{}, R{}, check{};//N-количество вершин, R-количество ребер
 	printf("Введите количество венршин и ребкр:");
 	scanf("%d %d", &N, &R);
-	mas mas_Graph_Input{}; creatMasN_2(mas_Graph_Input, N); //массив с ребрами
+	mas mas_Graph_Input{}; creatMasN_2(mas_Graph_Input, R); //массив с ребрами
 	mas mas_Graph{}; creatMasN_N(mas_Graph, N);	//матрица смежности
 	printf("1 - ввести вручную ребера, 0 - взять готовые ребра");
-	scanf("%b",check);
+	scanf("%d",&check);
 	if (check) {
-		inputValunInMas(mas_Graph_Input, N);
+		printf("Введите пары:\n");
+		inputValunInMasN_2(mas_Graph_Input, N);
 	}
 	else {
 		mas_Graph_Input = {
-			{};
-			{};
-			{};
+			{},
+			{},
+			{},
 		};
 	}
-	scanf();
 	return 0;
 }

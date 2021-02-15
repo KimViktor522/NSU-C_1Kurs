@@ -80,27 +80,33 @@ void build_mas_Graph(masN_N& array, masN_N& ribs, int N) {
 
 //окраска дуги принадлежащей только одному пути длины не более int_Color_Ribs
 int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int& int_Color_Ribs, int N) {
-	if (used_Tops[top_1 - 1] == 2) return 0;
+	if (used_Tops[top_1 - 1] == 2) return 2;
 	++used_Tops[top_1 - 1]; //обошли эту вершину
 	for (int j{}; j < N; ++j) {
 		if (mas_Graph[top_1 - 1][j] == 1) { //существует дуга из top_1  в j. И  это точки небыло рание
 			if (j == top_2 - 1) {//дошли до top_2 
 				++mas_Graph[top_1 - 1][j];
-				return --int_Color_Ribs;
+				--int_Color_Ribs;
+				return 1;
 			}
-			if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N)) {
+			if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 1) {
 				--int_Color_Ribs;
 				++mas_Graph[top_1 - 1][j];
+			}
+			else if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 2) {
+				++++mas_Graph[top_1 - 1][j];
 			}
 		}
 		else if (mas_Graph[top_1 - 1][j] == 2) {//снимаем цвет т.к. встречали этот путь
 			if (j == top_2 - 1) {//дошли до top_2 
 				++mas_Graph[top_1 - 1][j];
-				return ++int_Color_Ribs;
+				++int_Color_Ribs;
+				return 1;
 			}
 			if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N)) {
 				++mas_Graph[top_1 - 1][j];
 				++int_Color_Ribs;
+				--used_Tops[top_1 - 1];
 			}
 		}
 	}

@@ -78,7 +78,7 @@ void build_mas_Graph(masN_N& array, masN_N& ribs, int N) {
 	}
 }
 
-//окраска дуги принадлежащей только одному пути длины не более int_Color_Ribs
+//окраска все дуги принадлежащей только одному пути длины не более int_Color_Ribs
 int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int& int_Color_Ribs, int N) {
 	if (used_Tops[top_1 - 1] == 2) return 2;
 	++used_Tops[top_1 - 1]; //обошли эту вершину
@@ -113,6 +113,14 @@ int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int& 
 	return 0;
 }
 
+
+//окраска все дуги принадлежащей только одному пути
+/*int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int N) {
+
+	return 0;
+}*/
+//ввывод дуг принадлежащей только одному пути  длины не более int_Color_Ribs
+
 int main() {
 	system("chcp 65001"); system("cls");
 	int N{}, R{}, check{};//N-количество вершин, R-количество ребер
@@ -127,10 +135,19 @@ int main() {
 		if (inputValunInMasN_2(mas_Ribs, N)) return 0;//
 	}
 	else {//готовый (заданый) граф
-		N = 7;
-		R = 12;
+		/*N = 7;
+		R = 12;*/
+		N = 4;
+		R = 5;
 		creatMasN_2(mas_Ribs, R);
 		mas_Ribs = {
+			{1,2},
+			{1,3},
+			{2,3},
+			{3,4},
+			{4,2}
+
+			/*
 			{1,2},
 			{1,3},
 			{1,4},
@@ -142,7 +159,7 @@ int main() {
 			{5,1},
 			{6,5},
 			{6,7},
-			{7,5}
+			{7,5}*/
 		};
 	}
 	masN_N mas_Graph{}; creatMasN_N(mas_Graph, N); //матрица смежности

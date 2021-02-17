@@ -79,9 +79,11 @@ void build_mas_Graph(masN_N& array, masN_N& ribs, int N) {
 }
 
 //окраска все дуги принадлежащей только одному пути длины не более int_Color_Ribs
-int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int& int_Color_Ribs, int N) {
-	if (used_Tops[top_1 - 1] == 2) return 2;
+int painting_arc(masN_N& mas_Graph, masN used_Tops, int top_1, int top_2, int& int_Color_Ribs, int N) {
+	/*if (used_Tops[top_1 - 1] == 1) return 2;*/
 	++used_Tops[top_1 - 1]; //обошли эту вершину
+	
+	top_1;
 	for (int j{}; j < N; ++j) {
 		if (mas_Graph[top_1 - 1][j] == 1) { //существует дуга из top_1  в j. И  это точки небыло рание
 			if (j == top_2 - 1) {//дошли до top_2 
@@ -89,36 +91,31 @@ int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int& 
 				--int_Color_Ribs;
 				return 1;
 			}
-			if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 1) {
+			if ((used_Tops[j] < 2) && painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 1) {
 				--int_Color_Ribs;
 				++mas_Graph[top_1 - 1][j];
 			}
-			else if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 2) {
+			/*else if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 2) {
 				++++mas_Graph[top_1 - 1][j];
-			}
+			}*/
 		}
 		else if (mas_Graph[top_1 - 1][j] == 2) {//снимаем цвет т.к. встречали этот путь
 			if (j == top_2 - 1) {//дошли до top_2 
 				++mas_Graph[top_1 - 1][j];
 				++int_Color_Ribs;
+				//--used_Tops[top_1 - 1];
 				return 1;
 			}
 			if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N)) {
 				++mas_Graph[top_1 - 1][j];
 				++int_Color_Ribs;
-				--used_Tops[top_1 - 1];
+				//--used_Tops[top_1 - 1];
 			}
 		}
 	}
 	return 0;
 }
 
-
-//окраска все дуги принадлежащей только одному пути
-/*int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int N) {
-
-	return 0;
-}*/
 //ввывод дуг принадлежащей только одному пути  длины не более int_Color_Ribs
 
 int main() {
@@ -135,19 +132,17 @@ int main() {
 		if (inputValunInMasN_2(mas_Ribs, N)) return 0;//
 	}
 	else {//готовый (заданый) граф
-		/*N = 7;
-		R = 12;*/
-		N = 4;
-		R = 5;
+		N = 7;
+		R = 12;
+		/*N = 4;
+		R = 5;*/
 		creatMasN_2(mas_Ribs, R);
 		mas_Ribs = {
-			{1,2},
+			/*{1,2},
 			{1,3},
 			{2,3},
 			{3,4},
-			{4,2}
-
-			/*
+			{4,2}*/
 			{1,2},
 			{1,3},
 			{1,4},
@@ -159,7 +154,7 @@ int main() {
 			{5,1},
 			{6,5},
 			{6,7},
-			{7,5}*/
+			{7,5}
 		};
 	}
 	masN_N mas_Graph{}; creatMasN_N(mas_Graph, N); //матрица смежности

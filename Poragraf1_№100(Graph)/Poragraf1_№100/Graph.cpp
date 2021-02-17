@@ -80,6 +80,7 @@ void build_mas_Graph(masN_N& array, masN_N& ribs, int N) {
 
 //окраска дуги принадлежащей только одному пути длины не более int_Color_Ribs
 int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int& int_Color_Ribs, int N) {
+	printMasN_N(mas_Graph, N);
 	if (used_Tops[top_1 - 1] == 2) return 2;
 	++used_Tops[top_1 - 1]; //обошли эту вершину
 	for (int j{}; j < N; ++j) {
@@ -165,5 +166,7 @@ int main() {
 	painting_arc(mas_Graph, used_Tops, top_1, top_2, int_Color_Ribs, N);//обход от top_1 до top_2
 
 	printMasN_N(mas_Graph, N);
+
+	printf("top_1 = %d\ntop_2 = %d\nint_Color_Ribs = %d\n", top_1, top_2, int_Color_Ribs);
 	return 0;
 }

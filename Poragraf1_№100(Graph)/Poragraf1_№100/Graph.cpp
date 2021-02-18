@@ -15,17 +15,17 @@ void creatMasN_N(masN_N& array, int N) {
 	}
 }
 
-//создание вектора (массива) N
-void creatMasN(masN& array, int N) {
-	array.resize(N);
-}
-
 //создание вектора (массива) N*2  //для ребер
 void creatMasN_2(masN_N& array, int N) {
 	array.resize(N);
 	for (int i{}; i < N; ++i) {
 		array[i].resize(2);
 	}
+}
+
+//создание вектора (массива) N
+void creatMasN(masN& array, int N) {
+	array.resize(N);
 }
 
 //вывод вектора (массива) N*N //матрицы смежности
@@ -57,6 +57,15 @@ void printMasN_2(masN_N& array, int N) {
 	printf("\n");
 }
 
+//вывод вектора (массива) N //ребер
+void printMasN(masN& array, int N) {
+	printf("\t");
+	for (int i{}; i < N; ++i) {
+		printf("%d\t", array[i]);
+	}
+	printf("\n");
+}
+
 //ввод ребер (1-не корректный ввод, 0-все ок)
 int inputValunInMasN_2(masN_N& array, int N) {
 	for (int i{}; i < N; ++i) {
@@ -78,40 +87,58 @@ void build_mas_Graph(masN_N& array, masN_N& ribs, int N) {
 	}
 }
 
+//число не провереных ребер
+int clear_Ribs(masN_N& mas_Graph, int top_1, int N) {
+	int num{};
+	for (int i{}; i < N; ++i) {
+		if (mas_Graph[top_1][i] == 1) ++num;
+	}
+	return num;
+}
+
 //окраска дуги принадлежащей только одному пути длины не более int_Color_Ribs
-int painting_arc(masN_N& mas_Graph, masN& used_Tops, int top_1, int top_2, int& int_Color_Ribs, int N) {
+int painting_arc(masN_N& mas_Graph, masN used_Tops, int top_1, int top_2, int& int_Color_Ribs, int N) {
 	printMasN_N(mas_Graph, N);
-	if (used_Tops[top_1 - 1] == 2) return 2;
+	printMasN(used_Tops, N);
+	printf("%d\n", top_1);
+	bool check{}; //проверяет прошли ли top_2
 	++used_Tops[top_1 - 1]; //обошли эту вершину
 	for (int j{}; j < N; ++j) {
 		if (mas_Graph[top_1 - 1][j] == 1) { //существует дуга из top_1  в j. И  это точки небыло рание
 			if (j == top_2 - 1) {//дошли до top_2 
 				++mas_Graph[top_1 - 1][j];
 				--int_Color_Ribs;
-				return 1;
+				check = true;
+				//return 1;
 			}
-			if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 1) {
+			if ((used_Tops[j] < 2) && painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 1) {
 				--int_Color_Ribs;
-				++mas_Graph[top_1 - 1][j];
+				if (mas_Graph[top_1 - 1][j] == 1) ++mas_Graph[top_1 - 1][j];
 			}
-			else if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N) == 2) {
-				++++mas_Graph[top_1 - 1][j];
+			else {
+				if (mas_Graph[top_1 - 1][j] == 1) {
+					++++mas_Graph[top_1 - 1][j];
+					if (clear_Ribs(mas_Graph, j, N) == 1) return 0;
+				}
 			}
 		}
 		else if (mas_Graph[top_1 - 1][j] == 2) {//снимаем цвет т.к. встречали этот путь
 			if (j == top_2 - 1) {//дошли до top_2 
 				++mas_Graph[top_1 - 1][j];
 				++int_Color_Ribs;
-				return 1;
+				--used_Tops[top_1 - 1];
+				check = true;
+				//return 1;
 			}
 			if (painting_arc(mas_Graph, used_Tops, j + 1, top_2, int_Color_Ribs, N)) {
-				++mas_Graph[top_1 - 1][j];
+				if (mas_Graph[top_1 - 1][j] == 2) ++mas_Graph[top_1 - 1][j];
 				++int_Color_Ribs;
 				--used_Tops[top_1 - 1];
 			}
 		}
 	}
-	return 0;
+	if (check) return 1;
+	else return 0;
 }
 
 int main() {
@@ -164,6 +191,7 @@ int main() {
 		printf("top_1 = %d\ntop_2 = %d\nint_Color_Ribs = %d\n", top_1, top_2, int_Color_Ribs);
 	}
 	painting_arc(mas_Graph, used_Tops, top_1, top_2, int_Color_Ribs, N);//обход от top_1 до top_2
+	//painting_arc(mas_Graph, used_Tops, top_2, top_1, int_Color_Ribs, N);//обход от top_1 до top_2
 
 	printMasN_N(mas_Graph, N);
 
